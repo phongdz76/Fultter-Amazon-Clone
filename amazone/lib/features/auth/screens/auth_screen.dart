@@ -1,3 +1,5 @@
+import 'package:amazone/common/widgets/custom_button.dart';
+import 'package:amazone/common/widgets/custom_textfield.dart';
 import 'package:amazone/constants/global_variables.dart';
 import 'package:flutter/material.dart';
 
@@ -64,12 +66,51 @@ class _AuthScreenState extends State<AuthScreen>{
               ),
             ),
             if(_auth == Auth.signUp)
-            Form(
-              key: _signUpFormKey,
-              child: Column(
-                children: [
-                  CustomTextfield(controller: controller),
-                ],
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              color: GlobalVariables.backgroundColor,
+              child: Form(
+                key: _signUpFormKey,
+                child: Column(
+                   children: [
+                    CustomTextfield(
+                      controller: _nameController,
+                      hintText: 'Name',
+                    ),
+                    
+                    const SizedBox(height: 10),
+                    CustomTextfield(
+                      controller: _emailController,
+                      hintText: 'Email',
+                    ),
+              
+                    const SizedBox(height: 10),
+                    CustomTextfield(
+                      controller: _passwordController,
+                      hintText: 'Password',
+                    ),
+
+                   const SizedBox(height: 10),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF9900), // Màu cam
+                          foregroundColor: Colors.white, // Màu chữ trắng
+                        ),
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
 
