@@ -16,6 +16,21 @@ class AuthScreen extends StatefulWidget{
 
 class _AuthScreenState extends State<AuthScreen>{
   Auth _auth = Auth.signUp;
+  final _signUpFormKey = GlobalKey<FormState>();
+  final _signInFormKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+  }
+
   @override
    Widget build(BuildContext context){
     return Scaffold(
@@ -46,6 +61,15 @@ class _AuthScreenState extends State<AuthScreen>{
                     _auth = value!;
                   });
                 },
+              ),
+            ),
+            if(_auth == Auth.signUp)
+            Form(
+              key: _signUpFormKey,
+              child: Column(
+                children: [
+                  CustomTextfield(controller: controller),
+                ],
               ),
             ),
 
