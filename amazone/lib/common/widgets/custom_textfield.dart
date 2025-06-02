@@ -6,11 +6,11 @@ class CustomTextfield extends StatelessWidget {
   final int maxLines;
   
   const CustomTextfield({
-    Key? key,
+    super.key,
     required this.controller,
     required this.hintText,
     this.maxLines = 1,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
