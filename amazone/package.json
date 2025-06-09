@@ -2,6 +2,7 @@
   "dependencies": {
     "express": "^5.1.0",
     "http": "^0.0.1-security",
-    "mongoose": "^6.3.2"
+    "mongoose": "^6.3.2",
+    "monk": "^7.3.4"
   }
 }
