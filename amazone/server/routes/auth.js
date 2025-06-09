@@ -7,12 +7,16 @@ const authRouter = express.Router();
 authRouter.post("/api/signup", async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
+    // console.log("Received signup request:", { name, email, password });
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res
         .status(400)
         .json({ msg: "User with same email already exists!" });
     }
+    
         const passwordHash = await bcrypt.hash(password, 6);
 
     let user = new User({

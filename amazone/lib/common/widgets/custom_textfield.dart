@@ -35,7 +35,6 @@ class CustomTextfield extends StatelessWidget {
         }
         return null;
       },
-      
     );
   }
 }

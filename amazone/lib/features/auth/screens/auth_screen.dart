@@ -2,6 +2,7 @@ import 'package:amazone/common/widgets/custom_button.dart';
 import 'package:amazone/common/widgets/custom_textfield.dart';
 import 'package:amazone/constants/global_variables.dart';
 import 'package:flutter/material.dart';
+import '../services/auth_services.dart';
 
 enum Auth {
   signUp,
@@ -20,7 +21,7 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
   Auth _auth = Auth.signUp;
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
-
+  final AuthServices authServices = AuthServices();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -41,17 +42,6 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
     _animationController.forward();
   }
 
-  void signUpUser() {
-    if (_signUpFormKey.currentState!.validate()) {
-      print('Sign up with: ${_nameController.text}, ${_emailController.text}');
-    }
-  }
-
-  void signInUser() {
-    if (_signInFormKey.currentState!.validate()) {
-      print('Sign in with: ${_emailController.text}');
-    }
-  }
 
   @override
   void dispose() {
@@ -61,6 +51,23 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
     _nameController.dispose();
     super.dispose();
   }
+
+  void signUpUser() {
+      authServices.signUpUser(
+        context: context,
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+  }
+
+
+ void signInUser() {
+    if (_signInFormKey.currentState!.validate()) {
+      print('Sign in with: ${_emailController.text}');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -395,7 +402,12 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
             const SizedBox(height: 24),
             CustomButton(
               text: 'Create Account',
-              onTap: signUpUser,
+              onTap: ()
+              {
+                if (_signUpFormKey.currentState!.validate()) {
+                  signUpUser();
+                }
+              },
               color: GlobalVariables.secondaryColor,
               borderRadius: 16,
               height: 56,
