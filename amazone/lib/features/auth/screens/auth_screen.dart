@@ -63,9 +63,11 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
 
 
  void signInUser() {
-    if (_signInFormKey.currentState!.validate()) {
-      print('Sign in with: ${_emailController.text}');
-    }
+    authServices.signInUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
   }
 
 
@@ -457,7 +459,12 @@ class _AuthScreenState extends State<AuthScreen> with TickerProviderStateMixin {
             const SizedBox(height: 8),
             CustomButton(
               text: 'Sign In',
-              onTap: signInUser,
+              onTap: ()
+              {
+                if (_signInFormKey.currentState!.validate()) {
+                  signInUser();
+                }
+              },
               color: GlobalVariables.secondaryColor,
               borderRadius: 16,
               height: 56,

@@ -1,8 +1,9 @@
 import express from "express";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-
+import jwt from "jsonwebtoken";
 const authRouter = express.Router();
+
 // SIGN UP
 authRouter.post("/api/signup", async (req, res) => {
   try {
@@ -43,37 +44,20 @@ authRouter.post("/api/signin", async (req, res) => {
         .json({ msg: "User with this email does not exist!" });
     }
 
-    if (password !== user.password) {
-      return res.status(400).json({ msg: "Incorrect password." });
-    }
+    const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400)
+        .json({ msg: "Incorrect password." });
+      }
 
-    res.json({ user, msg: "Login successful!" });
+    const token = jwt.sign({id: user._id,}, "passwordKey");
+    res.json({token, ...user._doc});
+        
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
 });
 
-// TOKEN VALIDATION
-authRouter.post("/api/tokenIsValid", async (req, res) => {
-  try {
-    res.json(true);
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
 
-// GET USER DATA
-authRouter.get("/api/user", async (req, res) => {
-  try {
-    res.json({ msg: "User data endpoint" });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
-
-// TEST ROUTE
-authRouter.get("/api/test", (req, res) => {
-  res.json({ msg: "Auth router is working!" });
-});
 
 export default authRouter;
